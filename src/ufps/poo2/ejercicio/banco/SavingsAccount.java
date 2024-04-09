@@ -4,14 +4,26 @@ public class SavingsAccount extends Account {
 
     private double interest;
 
-    public SavingsAccount(int a, double interest) {
-        super(a);
+    public SavingsAccount(int accnum, double interest) {
+        super(accnum);
         this.interest = interest;
     }
 
-    public void addInterest() {
-        double balance = getBalance();
-        double interestAmount = balance * interest;
-        deposit(interestAmount);
+    @Override
+    public void deposit(double sum){
+        double interestAmount = getBalance() * interest;
+        super.deposit(sum + interestAmount);
+
+    }
+
+    public void addInteres(){
+        double interesAmount = getBalance()*getInteres();
+        super.deposit(interesAmount);
+
+    }
+    
+    
+    public double getInteres(){
+        return interest;
     }
 }
