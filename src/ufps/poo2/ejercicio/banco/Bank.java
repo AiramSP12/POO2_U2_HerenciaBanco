@@ -37,8 +37,8 @@ public class Bank {
                 account.deposit(sum);
                 return;
             }
-            else System.err.println("Account not found with account number: " + accnum);
         }
+        System.err.println("Account not found with account number: " + accnum);
     }
     public void withdraw(int accnum, double amount) {
         for (Account account : accounts) {

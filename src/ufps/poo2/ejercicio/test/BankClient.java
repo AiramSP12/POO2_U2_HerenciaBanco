@@ -49,7 +49,7 @@ public class BankClient{
         bank.withdraw(456, 300);
 
         // Pagar dividendos
-        bank.deposit(123, 50);
+        bank.deposit(122, 50);
 
         // Obtener saldo de cuentas
         double balance1 = bank.getBalance(123);
