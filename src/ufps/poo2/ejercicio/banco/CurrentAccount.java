@@ -2,10 +2,18 @@ package ufps.poo2.ejercicio.banco;
 
 public class CurrentAccount extends Account {
 
-    private double overdraftLimit;
+    private static double overdraftLimit = 5;
+
+    public CurrentAccount(int a) {
+        super(a);    }
 
     public CurrentAccount(int a, double overdraftLimit) {
         super(a);
+        this.overdraftLimit = overdraftLimit;
+    }
+    
+    public double getOverdraftLimit(){
+        return overdraftLimit;
     }
 
     @Override
@@ -13,7 +21,8 @@ public class CurrentAccount extends Account {
         if (sum > 0 && sum <= (getBalance() + overdraftLimit)) {
             super.withdraw(sum);
         } else {
-            System.err.println("CurrentAccount.withdraw(...): Cannot withdraw more than the balance plus overdraft limit.");
+            System.err.println(
+                    "CurrentAccount.withdraw(...): cannot withdraw this amount.");
         }
     }
 }

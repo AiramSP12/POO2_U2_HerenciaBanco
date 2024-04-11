@@ -7,7 +7,7 @@ public class Bank {
 
     public List<Account> accounts;
 
-    public Bank(){
+    public Bank() {
         accounts = new ArrayList<>();
     }
 
@@ -15,7 +15,17 @@ public class Bank {
         accounts.add(account);
     }
 
-    public void openAccount(char typeAccount, int accnum, double io) { //interest / over
+    public void openAccount(char typeAccount, int accnum) {
+        if (typeAccount == 'A') {
+            accounts.add(new SavingsAccount(accnum));
+        } else if (typeAccount == 'C') {
+            accounts.add(new CurrentAccount(accnum));
+        } else {
+            System.err.println("Invalid account type.");
+        }
+    }
+
+    public void openAccount(char typeAccount, int accnum, double io) { // interest / over
         if (typeAccount == 'A') {
             accounts.add(new SavingsAccount(accnum, io));
         } else if (typeAccount == 'C') {
@@ -25,29 +35,33 @@ public class Bank {
         }
     }
 
-  
-
     public void closeAccount(Account account) {
         accounts.remove(account);
     }
 
-    public void deposit(int accnum, double sum){ 
-        for(Account account : accounts){
-            if(account.getAccountNumber() == accnum){
+    public void deposit(int accnum, double sum) {
+        for (Account account : accounts) {
+            if (account.getAccountNumber() == accnum) {
                 account.deposit(sum);
                 return;
             }
         }
         System.err.println("Account not found with account number: " + accnum);
     }
+
     public void withdraw(int accnum, double amount) {
+        if(accountSearch(accnum) != null)
+        accountSearch(accnum).withdraw(amount);
+    }
+
+    public Account accountSearch(int accnum) {
         for (Account account : accounts) {
             if (account.getAccountNumber() == accnum) {
-                account.withdraw(amount);
-                return;
+                return account;
             }
         }
         System.err.println("Account not found with account number: " + accnum);
+        return null;
     }
 
     public double getBalance(int accnum) throws IllegalArgumentException {
@@ -58,13 +72,12 @@ public class Bank {
         }
         throw new IllegalArgumentException("Account not found with account number: " + accnum);
     }
-    
 
     public void sendLetterToOverdraftAccounts() {
         for (Account account : accounts) {
             if (account instanceof CurrentAccount) {
                 CurrentAccount currentAccount = (CurrentAccount) account;
-                if (currentAccount.getBalance() < 0) {
+                if (currentAccount.getBalance() < currentAccount.getOverdraftLimit()) {
                     System.out.println("Sending letter to this " + currentAccount.getAccountNumber() + " account");
                 }
             }
