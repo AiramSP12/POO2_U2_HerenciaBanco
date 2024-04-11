@@ -15,11 +15,23 @@ public class Bank {
         accounts.add(account);
     }
 
+    public void openAccount(char typeAccount, int accnum, double io) { //interest / over
+        if (typeAccount == 'A') {
+            accounts.add(new SavingsAccount(accnum, io));
+        } else if (typeAccount == 'C') {
+            accounts.add(new CurrentAccount(accnum, io));
+        } else {
+            System.err.println("Invalid account type.");
+        }
+    }
+
+  
+
     public void closeAccount(Account account) {
         accounts.remove(account);
     }
 
-    public void deposit(int accnum, double sum){
+    public void deposit(int accnum, double sum){ 
         for(Account account : accounts){
             if(account.getAccountNumber() == accnum){
                 account.deposit(sum);
@@ -46,18 +58,17 @@ public class Bank {
         }
         throw new IllegalArgumentException("Account not found with account number: " + accnum);
     }
+    
 
-    public void checkOverdraft(int accnum){
-        for (Account account : accounts){
-            if(account instanceof CurrentAccount){
+    public void sendLetterToOverdraftAccounts() {
+        for (Account account : accounts) {
+            if (account instanceof CurrentAccount) {
                 CurrentAccount currentAccount = (CurrentAccount) account;
-                if(currentAccount.getBalance() < 0){
-                    System.out.println("Account: "+ currentAccount.getAccountNumber()+"is in overdraft.");
+                if (currentAccount.getBalance() < 0) {
+                    System.out.println("Sending letter to this " + currentAccount.getAccountNumber() + " account");
                 }
             }
         }
     }
-
-
 
 }
