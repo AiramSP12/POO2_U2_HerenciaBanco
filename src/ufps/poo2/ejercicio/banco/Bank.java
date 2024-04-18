@@ -6,18 +6,19 @@ import java.util.ArrayList;
 public class Bank {
 
     private  List<Account> accounts; 
-    private  static double cdtInterest;
+    public   final double cdtInterest;
 
     public Bank() {
+        cdtInterest = 0;
         accounts = new ArrayList<Account>();
     }
 
     public Bank(double cdtInterest) {
         accounts = new ArrayList<>(); 
-        Bank.cdtInterest = cdtInterest;
+        this.cdtInterest = cdtInterest;
     }
 
-    public static  double getCdtInterest() {
+    public   double getCdtInterest() {
         return cdtInterest;
     }
 
@@ -60,16 +61,17 @@ public class Bank {
     }
 
     public void withdraw(int accnum, double amount) {
-        if (accountSearch(accnum) != null){
-            if (accountSearch(accnum) instanceof CDT){
-            CDT cdt = (CDT) accountSearch(accnum);
-            cdt.withdraw(amount);
-            closeAccount(cdt);
+        Account account = accountSearch(accnum);
+        if (account != null) {
+            if (account instanceof CDT) {
+                account.withdraw(getCdtInterest());
+                closeAccount(account);
             }
             else
-            accountSearch(accnum).withdraw(amount);
+            account.withdraw(amount);
         }
     }
+    
 
     public Account accountSearch(int accnum) {
         for (Account account : accounts) {
@@ -101,7 +103,7 @@ public class Bank {
             for (Account account : accounts) {
             sb.append("---------------\n"); 
                 if (account instanceof CDT) {
-                    sb.append("Account type: CDT \n");
+                    sb.append("Account type: CDT (" + this.cdtInterest + "%)\n");
                 } 
                 else if (account instanceof SavingsAccount){
                     sb.append("Account type: SavingsAccount \n");

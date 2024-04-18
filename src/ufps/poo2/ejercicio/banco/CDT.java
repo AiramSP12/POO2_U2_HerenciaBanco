@@ -10,11 +10,11 @@ public class CDT extends Account {
     }
 
     @Override
-    public void withdraw(double sum){
+    public void withdraw(double interest){
         double total = getBalance();
 
         for (int i = 0; i < months; i++) {
-            total += total*Bank.getCdtInterest() / 100;
+            total += total*interest / 100;
         }
         //Bank.closeAccount(this); // si hace estatico el metodo, en este caso ya no por que los bancos dirijen cuentas diferentes
         System.out.println("Se retiro :" + total);

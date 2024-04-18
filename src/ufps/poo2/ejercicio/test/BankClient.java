@@ -97,13 +97,19 @@ public class BankClient {
         bank2.withdraw(656, 300);
         bank2.closeAccount(bank2.accountSearch(321));
         System.out.println(bank2);
-        System.out.println(bank);
+        
+
         Bank bankCDT = new Bank(1);
-        bankCDT.openAccount(new CDT(100000, 1, 12));
-        System.out.println(bankCDT);
-        bankCDT.withdraw(1, 1);
+        bankCDT.openAccount(new CDT(100000, 1, 2));
         System.out.println(bankCDT);
 
+        Bank bankCDT2 = new Bank(5);
+        System.out.println(bankCDT.cdtInterest);
+        bankCDT.withdraw(1, 1);
+        System.out.println(bankCDT);
         
+        System.out.println(bankCDT2.cdtInterest);
+
+        System.out.println(bank + "" + bank.getCdtInterest());
     }
 }
