@@ -69,18 +69,41 @@ public class BankClient {
             bank.deposit(123, 1000);
             System.out.println("Saldo de la cuenta 123: " + bank.getBalance(123));
 
-            //eliminar una cuenta
+            // eliminar una cuenta
             bank.closeAccount(bank.accountSearch(456));
             System.out.println("Saldo de la cuenta 456: " + bank.getBalance(456));
 
-
         } catch (Exception e) {
             System.err.println("Error en cuenta " + e.getMessage());
-        } 
-         
-         bank.withdraw(789, 2000);
-         System.out.println("Saldo de la cuenta 789: " + bank.getBalance(789));
-         // Enviar cartas a cuentas en sobregiro
-         bank.sendLetterToOverdraftAccounts();
+        }
+
+        bank.withdraw(789, 2000);
+        System.out.println("Saldo de la cuenta 789: " + bank.getBalance(789));
+        // Enviar cartas a cuentas en sobregiro
+        bank.sendLetterToOverdraftAccounts();
+        Bank bank2 = new Bank();
+
+        bank2.openAccount('A', 321); // Cuenta de ahorros
+        bank2.openAccount('A', 656, 5); // Cuenta de ahorros
+        bank2.openAccount('C', 12, 2000);// Cuenta corriente
+
+        // Realizar depósitos
+        bank2.deposit(321, 1000);
+        bank2.deposit(656, 500);
+        bank2.deposit(12, 1500);
+
+        // Realizar retiros
+        bank2.withdraw(321, 200);
+        bank2.withdraw(656, 300);
+        bank2.closeAccount(bank2.accountSearch(321));
+        System.out.println(bank2);
+        System.out.println(bank);
+        Bank bankCDT = new Bank(1);
+        bankCDT.openAccount(new CDT(100000, 1, 12));
+        System.out.println(bankCDT);
+        bankCDT.withdraw(1, 1);
+        System.out.println(bankCDT);
+
+        
     }
 }

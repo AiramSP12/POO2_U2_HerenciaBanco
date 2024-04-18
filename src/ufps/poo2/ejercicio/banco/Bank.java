@@ -5,10 +5,20 @@ import java.util.ArrayList;
 
 public class Bank {
 
-    public List<Account> accounts;
+    private  List<Account> accounts; 
+    private  static double cdtInterest;
 
     public Bank() {
-        accounts = new ArrayList<>();
+        accounts = new ArrayList<Account>();
+    }
+
+    public Bank(double cdtInterest) {
+        accounts = new ArrayList<>(); 
+        Bank.cdtInterest = cdtInterest;
+    }
+
+    public static  double getCdtInterest() {
+        return cdtInterest;
     }
 
     public void openAccount(Account account) {
@@ -35,7 +45,7 @@ public class Bank {
         }
     }
 
-    public void closeAccount(Account account) {
+    public  void closeAccount(Account account) {
         accounts.remove(account);
     }
 
@@ -50,8 +60,15 @@ public class Bank {
     }
 
     public void withdraw(int accnum, double amount) {
-        if(accountSearch(accnum) != null)
-        accountSearch(accnum).withdraw(amount);
+        if (accountSearch(accnum) != null){
+            if (accountSearch(accnum) instanceof CDT){
+            CDT cdt = (CDT) accountSearch(accnum);
+            cdt.withdraw(amount);
+            closeAccount(cdt);
+            }
+            else
+            accountSearch(accnum).withdraw(amount);
+        }
     }
 
     public Account accountSearch(int accnum) {
@@ -71,6 +88,36 @@ public class Bank {
             }
         }
         throw new IllegalArgumentException("Account not found with account number: " + accnum);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if (accounts.isEmpty()) {
+            sb.append("No accounts in the bank.");
+        }
+        else {
+            sb.append("Accounts in the bank:\n");
+            for (Account account : accounts) {
+            sb.append("---------------\n"); 
+                if (account instanceof CDT) {
+                    sb.append("Account type: CDT \n");
+                } 
+                else if (account instanceof SavingsAccount){
+                    sb.append("Account type: SavingsAccount \n");
+                }
+                else if (account instanceof CurrentAccount){
+                    sb.append("Account type: CurrentAccount \n");
+                }
+                else{
+                sb.append("Account type: Account \n");
+                }
+                sb.append("Account number: ").append(account.getAccountNumber()).append("\n");
+                sb.append("Balance: ").append(account.getBalance()).append("\n");
+            }
+            sb.append("---------------\n");
+        }
+        return sb.toString();
     }
 
     public void sendLetterToOverdraftAccounts() {

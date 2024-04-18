@@ -2,7 +2,7 @@ package ufps.poo2.ejercicio.banco;
 
 public class CurrentAccount extends Account {
 
-    private static double overdraftLimit = 5;
+    private  double overdraftLimit = 5;
 
     public CurrentAccount(int a) {
         super(a);    }
